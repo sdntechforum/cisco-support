@@ -478,7 +478,6 @@ export function createMCPServer(): Server {
     {
       name: 'mcp-cisco-support',
       version: VERSION,
-      // @ts-ignore
       icon: SERVER_ICON,
     },
     {
@@ -506,7 +505,6 @@ export function createMCPServer(): Server {
 
   // Elicitation request handler
   server.setRequestHandler(ElicitRequestSchema, async (request) => {
-    // @ts-ignore
     const { message, requestedSchema } = request.params;
     
     try {

@@ -526,6 +526,12 @@ export class BugApi extends BaseApi {
             version: {
               type: 'string',
               description: 'Software version to search for (e.g., "15.0", "14.0", "17.9.6"). Will be automatically included in keyword search terms and used for product_series searches as affected_releases. Optional for product_id searches (fallback to keyword happens with or without version).'
+            },
+            modified_date: {
+              type: 'string',
+              description: 'Date filter: 1=Last Week, 2=Last 30 Days, 3=Last 6 Months, 4=Last Year, 5=All. Default: 2 (Last 30 Days).',
+              enum: ['1', '2', '3', '4', '5'],
+              default: '2'
             }
           },
           required: ['search_term', 'search_type']
@@ -912,7 +918,8 @@ export class BugApi extends BaseApi {
     const searchType = args.search_type as string;
     const maxSeverity = (args.max_severity as number) || 3;
     const version = args.version as string | undefined;
-    const additionalParams = (args.additional_params as Record<string, any>) || {};
+    const modifiedDate = (args.modified_date as string) || '2'; // Default: Last 30 Days
+    const additionalParams: Record<string, any> = { modified_date: modifiedDate, ...(args.additional_params as Record<string, any> || {}) };
 
     // If version is provided, enhance search parameters
     if (version) {
